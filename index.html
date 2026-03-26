@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Neelgiri Chemicals Pvt Ltd</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06061a;--bg2:#0b0b28;--bg3:#10103a;
+  --blue:#1e3cff;--blue2:#4060ff;--cyan:#00cfff;
+  --purple:#7b4fff;--green:#00ff88;--amber:#ffcc00;
+  --red:#ff4466;--white:#ffffff;--gray:#a0aec0;
+  --card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);
+  --font:'Syne',sans-serif;--fbody:'Inter',sans-serif;
+  --radius:14px;--sidebar:230px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--white);font-family:var(--fbody);font-size:14px}
+/* PERF: use transform instead of top/left */
+.gpu{will-change:transform;transform:translateZ(0)}
+
+/* ── PARTICLES BG ── */
+#particles{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.p{position:absolute;border-radius:50%;animation:pf linear infinite;opacity:0}
+@keyframes pf{0%{transform:translateY(110vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.3}100%{transform:translateY(-10vh) scale(1.2);opacity:0}}
+
+/* ── LOGIN ── */
+#loginWrap{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#0f1850 0%,#06061a 70%)}
+.login-box{width:380px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:22px;padding:40px;backdrop-filter:blur(20px);box-shadow:0 0 80px rgba(30,60,255,0.2)}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo .brand{font-family:var(--font);font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-logo p{font-size:11px;color:var(--gray);margin-top:4px;letter-spacing:.08em}
+.login-title{font-family:var(--font);font-size:18px;font-weight:700;margin-bottom:22px;text-align:center}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.form-group input,.form-group select{width:100%;padding:11px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:9px;color:var(--white);font-family:var(--fbody);font-size:13px;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus{border-color:rgba(30,60,255,0.6)}
+.form-group input option,.form-group select option{background:#0b0b28}
+.btn-login{width:100%;padding:12px;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;border-radius:9px;color:var(--white);font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .2s,transform .15s}
+.btn-login:hover{opacity:.88;transform:translateY(-1px)}
+.login-err{color:var(--red);font-size:12px;text-align:center;margin-top:10px;display:none}
+
+/* ── APP LAYOUT ── */
+#appWrap{display:none;position:fixed;inset:0;z-index:10;overflow:hidden}
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--sidebar);background:rgba(6,6,26,0.92);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:0;z-index:50;backdrop-filter:blur(16px);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.sb-logo{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
+.sb-logo .brand{font-family:var(--font);font-size:13px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.sb-logo .sub{font-size:10px;color:var(--gray);margin-top:2px}
+.sb-user{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.sb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.sb-uname{font-size:12px;font-weight:600}
+.sb-role{font-size:10px;color:var(--cyan);font-weight:600}
+.sb-nav{flex:1;overflow-y:auto;padding:10px 0;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.sb-section{padding:14px 18px 4px;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.12em}
+.nb{display:flex;align-items:center;gap:11px;padding:9px 18px;cursor:pointer;transition:background .15s,color .15s;color:rgba(255,255,255,.45);font-size:13px;font-weight:500;position:relative;border-radius:0}
+.nb:hover{background:rgba(255,255,255,.04);color:var(--white)}
+.nb.active{background:rgba(30,60,255,.15);color:var(--cyan)}
+.nb.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);border-radius:0 3px 3px 0}
+.nb .ni{font-size:16px;width:18px;text-align:center}
+.sb-footer{padding:14px 18px;border-top:1px solid var(--border)}
+.btn-logout{width:100%;padding:9px;background:rgba(255,68,102,.1);border:1px solid rgba(255,68,102,.2);border-radius:8px;color:var(--red);font-family:var(--fbody);font-size:12px;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-logout:hover{background:rgba(255,68,102,.2)}
+/* MAIN */
+#mainArea{margin-left:var(--sidebar);height:100vh;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:rgba(30,60,255,.3) transparent}
+#mainArea::-webkit-scrollbar{width:4px}
+#mainArea::-webkit-scrollbar-thumb{background:rgba(30,60,255,.3);border-radius:4px}
+.page{display:none;padding:24px 28px 48px;min-height:100%;animation:fadeInUp .35s ease both}
+.page.active{display:block}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.page-title{font-family:var(--font);font-size:26px;font-weight:800;background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:default}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(30,60,255,.15)}
+.stat-card::before{content:'';position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;opacity:.12;filter:blur(20px)}
+.stat-card.blue::before{background:var(--blue)}
+.stat-card.cyan::before{background:var(--cyan)}
+.stat-card.purple::before{background:var(--purple)}
+.stat-card.green::before{background:var(--green)}
+.stat-card.amber::before{background:var(--amber)}
+.stat-card.red::before{background:var(--red)}
+.stat-icon{font-size:22px;margin-bottom:10px}
+.stat-value{font-family:var(--font);font-size:32px;font-weight:800;line-height:1}
+.stat-label{font-size:11px;color:var(--gray);margin-top:5px;font-weight:500;letter-spacing:.03em}
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px;transition:box-shadow .2s}
+.card:hover{box-shadow:0 4px 24px rgba(0,0,0,.25)}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title{font-family:var(--font);font-size:14px;font-weight:700;color:var(--white)}
+.card-sub{font-size:11px;color:var(--gray)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-family:var(--fbody);font-size:12px;font-weight:600;transition:all .18s;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;box-shadow:0 4px 14px rgba(30,60,255,.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(30,60,255,.45)}
+.btn-cyan{background:rgba(0,207,255,.12);color:var(--cyan);border:1px solid rgba(0,207,255,.25)}
+.btn-cyan:hover{background:rgba(0,207,255,.22)}
+.btn-green{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.2)}
+.btn-green:hover{background:rgba(0,255,136,.2)}
+.btn-red{background:rgba(255,68,102,.1);color:var(--red);border:1px solid rgba(255,68,102,.2)}
+.btn-red:hover{background:rgba(255,68,102,.2)}
+.btn-amber{background:rgba(255,204,0,.1);color:var(--amber);border:1px solid rgba(255,204,0,.2)}
+.btn-amber:hover{background:rgba(255,204,0,.2)}
+.btn-sm{padding:5px 11px;font-size:11px;border-radius:6px}
+/* TABLES */
+.tbl-wrap{overflow-x:auto;border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{background:rgba(30,60,255,.1);padding:10px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;border-bottom:1px solid var(--border)}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+tbody td{padding:10px 12px;color:rgba(255,255,255,.8);white-space:nowrap;vertical-align:middle}
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.badge-green{background:rgba(0,255,136,.1);color:var(--green)}
+.badge-red{background:rgba(255,68,102,.1);color:var(--red)}
+.badge-amber{background:rgba(255,204,0,.1);color:var(--amber)}
+.badge-blue{background:rgba(30,60,255,.15);color:#7090ff}
+.badge-cyan{background:rgba(0,207,255,.1);color:var(--cyan)}
+.badge-gray{background:rgba(255,255,255,.06);color:var(--gray)}
+.badge-purple{background:rgba(123,79,255,.12);color:#a07fff}
+/* FORMS */
+.form-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+.form-row.col2{grid-template-columns:1fr 1fr}
+.form-row.col1{grid-template-columns:1fr}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:8px;color:var(--white);font-family:var(--fbody);font-size:12px;padding:9px 12px;outline:none;transition:border-color .18s;width:100%}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(30,60,255,.5)}
+.fg textarea{resize:vertical;min-height:70px}
+.fg select option{background:#0b0b28}
+/* TABS */
+.tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:9px;padding:4px;margin-bottom:18px;width:fit-content}
+.tab{padding:7px 16px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;color:rgba(255,255,255,.4);transition:all .18s}
+.tab.active{background:rgba(30,60,255,.3);color:var(--cyan)}
+/* PROGRESS */
+.prog-track{height:5px;background:rgba(255,255,255,.07);border-radius:5px;overflow:hidden;margin-top:6px}
+.prog-fill{height:100%;border-radius:5px;transition:width 1s ease}
+.prog-fill.blue{background:linear-gradient(90deg,var(--blue),var(--cyan))}
+.prog-fill.green{background:linear-gradient(90deg,#00b85a,var(--green))}
+.prog-fill.amber{background:linear-gradient(90deg,#b88000,var(--amber))}
+.prog-fill.red{background:linear-gradient(90deg,#b80020,var(--red))}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:linear-gradient(135deg,#0d0d2e,#06061a);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px;width:95%;max-width:800px;max-height:90vh;overflow-y:auto;transform:scale(.94) translateY(20px);transition:transform .3s cubic-bezier(.4,0,.2,1);scrollbar-width:thin;scrollbar-color:rgba(30,60,255,.3) transparent}
+.modal-bg.open .modal{transform:scale(1) translateY(0)}
+.modal-sm{max-width:440px}
+.modal-title{font-family:var(--font);font-size:18px;font-weight:800;margin-bottom:4px;color:var(--white)}
+.modal-sub{font-size:11px;color:var(--gray);margin-bottom:20px}
+.modal-footer{display:flex;gap:8px;margin-top:20px;justify-content:flex-end}
+/* ACTIVITY FEED */
+.activity-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.activity-item:last-child{border-bottom:none}
+.act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.act-text{font-size:12px;color:rgba(255,255,255,.75);flex:1;line-height:1.5}
+.act-time{font-size:10px;color:var(--gray)}
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:10px}
+.cal-day-header{text-align:center;font-size:10px;font-weight:700;color:var(--gray);padding:4px 0}
+.cal-day{text-align:center;font-size:11px;padding:5px 3px;border-radius:6px;cursor:pointer;transition:background .15s;color:rgba(255,255,255,.6);min-height:28px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
+.cal-day:hover{background:rgba(255,255,255,.06)}
+.cal-day.today{background:rgba(30,60,255,.25);color:var(--cyan);font-weight:700}
+.cal-day.has-meeting{position:relative}
+.cal-day.has-meeting::after{content:'';width:4px;height:4px;background:var(--amber);border-radius:50%;display:block}
+.cal-day.empty{cursor:default}
+/* STATUS INDICATOR */
+.status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+/* SEARCH */
+.search-bar{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:8px 12px}
+.search-bar input{background:transparent;border:none;outline:none;color:var(--white);font-family:var(--fbody);font-size:12px;flex:1}
+.search-bar input::placeholder{color:rgba(255,255,255,.25)}
+/* TOAST */
+#toastRoot{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:rgba(10,10,30,.95);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;transform:translateX(120%);transition:transform .3s cubic-bezier(.4,0,.2,1);min-width:240px;pointer-events:all;backdrop-filter:blur(20px);box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.toast.in{transform:translateX(0)}
+/* USER MGMT */
+.user-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;transition:background .15s}
+.user-card:hover{background:rgba(255,255,255,.055)}
+.u-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+/* CHART BAR */
+.bar-chart{display:flex;align-items:flex-end;gap:6px;height:100px;padding:0 4px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(to top,var(--blue),var(--cyan));min-height:4px;transition:height .8s cubic-bezier(.4,0,.2,1)}
+.bar-label{font-size:9px;color:var(--gray);text-align:center}
+.bar-val{font-size:9px;font-weight:700;color:var(--cyan);text-align:center}
+/* LEADS SHEET specific */
+.sheet-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+.sheet-wrap table thead th{position:sticky;top:0;z-index:2}
+/* RESPONSIVE */
+@media(max-width:1100px){.stats-grid{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){#sidebar{transform:translateX(-100%)}.stats-grid{grid-template-columns:1fr 1fr}#mainArea{margin-left:0}.g2,.g3{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- LOGIN -->
+<div id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="brand">NEELGIRI CHEMICALS</div>
+      <p>Pvt Ltd — Team Dashboard</p>
+    </div>
+    <div class="login-title">Sign In</div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUsername" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('loginPass').focus()"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <button class="btn-login" onclick="doLogin()">Sign In &#8594;</button>
+    <div style="margin-top:16px;padding:12px;background:rgba(0,207,255,0.06);border:1px solid rgba(0,207,255,0.12);border-radius:9px">
+      <div style="font-size:10px;font-weight:700;color:rgba(0,207,255,0.6);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">&#128161; Quick Login — Demo Accounts</div>
+      <div id="demoAccounts" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+    </div>
+    <div class="login-err" id="loginErr">Invalid username or password.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appWrap">
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sb-logo">
+      <div class="brand">NEELGIRI CHEMICALS</div>
+      <div class="sub">Pvt Ltd Dashboard</div>
+    </div>
+    <div class="sb-user">
+      <div class="sb-avatar" id="sbAvatar">U</div>
+      <div><div class="sb-uname" id="sbName">User</div><div class="sb-role" id="sbRole">Member</div></div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section">Main</div>
+      <div class="nb active" onclick="goto('dashboard')"><span class="ni">⬡</span> Dashboard</div>
+      <div class="nb" onclick="goto('leads')"><span class="ni">📋</span> Leads Sheet</div>
+      <div class="nb" onclick="goto('tasks')"><span class="ni">✅</span> To-Do List</div>
+      <div class="nb" onclick="goto('meetings')"><span class="ni">📅</span> Meetings</div>
+      <div class="nb" onclick="goto('activity')"><span class="ni">📊</span> My Activity</div>
+      <div class="sb-section admin-only">Admin</div>
+      <div class="nb admin-only" onclick="goto('team')"><span class="ni">👥</span> Team Overview</div>
+      <div class="nb admin-only" onclick="goto('users')"><span class="ni">⚙️</span> User Management</div>
+      <div class="nb admin-only" onclick="goto('reports')"><span class="ni">📈</span> Reports & Export</div>
+    </div>
+    <div class="sb-footer">
+      <button class="btn-logout" onclick="doLogout()">⏻ Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div id="mainArea">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="pg-dashboard">
+      <div class="topbar">
+        <div><div class="page-title" id="dashGreet">Dashboard</div><div style="font-size:12px;color:var(--gray);margin-top:3px" id="dashDate"></div></div>
+        <div class="topbar-actions">
+          <button class="btn btn-cyan" onclick="goto('leads')">＋ New Lead</button>
+          <button class="btn btn-primary" onclick="openMeetingModal()">＋ Schedule Meeting</button>
+        </div>
+      </div>
+      <div class="stats-grid" id="dashStats"></div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">📋 Recent Leads</div><div class="card-sub">Latest entries</div></div><button class="btn btn-sm btn-cyan" onclick="goto('leads')">View All</button></div>
+          <div id="recentLeads"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">📅 Upcoming Meetings</div><div class="card-sub">Scheduled</div></div><button class="btn btn-sm btn-amber" onclick="goto('meetings')">View All</button></div>
+          <div id="upcomingMeetings"></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-head"><div class="card-title">✅ My Pending To-Dos</div></div>
+          <div id="dashTodos"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">📊 Weekly Performance</div></div>
+          <div class="bar-chart" id="perfChart"></div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray)"><span style="width:10px;height:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:3px;display:inline-block"></span>Leads Added</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADS SHEET -->
+    <div class="page" id="pg-leads">
+      <div class="topbar">
+        <div><div class="page-title">📋 Leads Sheet</div><div style="font-size:12px;color:var(--gray)" id="leadsCount">0 leads</div></div>
+        <div class="topbar-actions">
+          <div class="search-bar"><span style="opacity:.5">🔍</span><input type="text" placeholder="Search leads…" id="leadsSearch" oninput="renderLeads()"/></div>
+          <button class="btn btn-cyan" onclick="goto('leads')">Filter: <span id="leadFilterLabel">All</span></button>
+          <button class="btn btn-primary" onclick="openLeadModal()">＋ Add Lead</button>
+          <button class="btn btn-green admin-only" onclick="exportLeadsExcel()">⬇ Excel</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px">
+        <div class="badge badge-gray" style="cursor:pointer;padding:5px 12px" onclick="setLeadFilter('All')">All</div>
+        <div class="badge badge-green" style="cursor:pointer;padding:5px 12px" onclick="setLeadFilter('Interested')">Interested</div>
+        <div class="badge badge-amber" style="cursor:pointer;padding:5px 12px" onclick="setLeadFilter('Follow Up')">Follow Up</div>
+        <div class="badge badge-red" style="cursor:pointer;padding:5px 12px" onclick="setLeadFilter('Not Interested')">Not Interested</div>
+        <div class="badge badge-cyan" style="cursor:pointer;padding:5px 12px" onclick="setLeadFilter('Converted')">Converted</div>
+        <div class="badge badge-blue" style="cursor:pointer;padding:5px 12px" onclick="setLeadFilter('Pending')">Pending</div>
+      </div>
+      <div class="sheet-wrap">
+        <table id="leadsTable">
+          <thead><tr>
+            <th>Lead ID</th><th>Company Name</th><th>Contact Person</th><th>Duration</th>
+            <th>Phone</th><th>Email</th><th>Requirement</th><th>Office Address</th>
+            <th>Feedback</th><th>Party Business</th><th>Visits</th><th>Meeting Date</th>
+            <th>Coordinates</th><th>Remark 1</th><th>Remark 2</th><th>Remark 3</th>
+            <th>Calling Date</th><th>Follow Up Date</th><th>Status</th><th>Salesman</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="leadsTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TO-DO LIST -->
+    <div class="page" id="pg-tasks">
+      <div class="topbar">
+        <div><div class="page-title">✅ To-Do List</div><div style="font-size:12px;color:var(--gray)" id="todoStats">0 tasks</div></div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" onclick="openTodoModal()">＋ Add Task</button>
+        </div>
+      </div>
+      <div class="g3" style="margin-bottom:14px">
+        <div class="card" style="border-top:3px solid var(--amber)">
+          <div class="card-title" style="margin-bottom:12px">⏳ Pending</div>
+          <div id="todoPending"></div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--blue)">
+          <div class="card-title" style="margin-bottom:12px">🔄 In Progress</div>
+          <div id="todoInProgress"></div>
+        </div>
+        <div class="card" style="border-top:3px solid var(--green)">
+          <div class="card-title" style="margin-bottom:12px">✅ Completed</div>
+          <div id="todoCompleted"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEETINGS -->
+    <div class="page" id="pg-meetings">
+      <div class="topbar">
+        <div><div class="page-title">📅 Meetings</div></div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" onclick="openMeetingModal()">＋ Schedule Meeting</button>
+          <button class="btn btn-green admin-only" onclick="exportMeetingsExcel()">⬇ Excel</button>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-head"><div class="card-title">📆 Calendar</div></div>
+          <div id="calendarWrap"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">📋 Meeting List</div></div>
+          <div id="meetingList" style="max-height:380px;overflow-y:auto;scrollbar-width:thin"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MY ACTIVITY -->
+    <div class="page" id="pg-activity">
+      <div class="topbar"><div class="page-title">📊 My Activity</div></div>
+      <div class="stats-grid" id="activityStats"></div>
+      <div class="g2">
+        <div class="card">
+          <div class="card-head"><div class="card-title">🕐 Activity Log</div></div>
+          <div id="activityLog" style="max-height:400px;overflow-y:auto;scrollbar-width:thin"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">📋 My Leads Summary</div></div>
+          <div id="myLeadsSummary"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM OVERVIEW (ADMIN) -->
+    <div class="page admin-only" id="pg-team">
+      <div class="topbar">
+        <div><div class="page-title">👥 Team Overview</div><div style="font-size:12px;color:var(--gray)">Admin view — all team activity</div></div>
+        <div class="topbar-actions">
+          <button class="btn btn-green" onclick="exportTeamExcel()">⬇ Export Excel</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" onclick="setTeamTab('members',this)">Members</div>
+        <div class="tab" onclick="setTeamTab('leads',this)">All Leads</div>
+        <div class="tab" onclick="setTeamTab('meetings',this)">All Meetings</div>
+        <div class="tab" onclick="setTeamTab('todos',this)">All To-Dos</div>
+      </div>
+      <div id="teamContent"></div>
+    </div>
+
+    <!-- USER MANAGEMENT (ADMIN) -->
+    <div class="page admin-only" id="pg-users">
+      <div class="topbar">
+        <div><div class="page-title">⚙️ User Management</div></div>
+        <div class="topbar-actions">
+          <button class="btn btn-primary" onclick="openUserModal()">＋ Add User</button>
+        </div>
+      </div>
+      <div id="usersGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"></div>
+    </div>
+
+    <!-- REPORTS (ADMIN) -->
+    <div class="page admin-only" id="pg-reports">
+      <div class="topbar">
+        <div><div class="page-title">📈 Reports & Export</div><div style="font-size:12px;color:var(--gray)">Admin — full data access</div></div>
+      </div>
+      <div class="g2" style="margin-bottom:14px">
+        <div class="card">
+          <div class="card-head"><div class="card-title">Filter by User</div></div>
+          <div class="fg"><label>Select Team Member</label><select id="reportUserFilter" onchange="renderReports()"><option value="">All Users</option></select></div>
+          <div style="margin-top:10px" class="fg"><label>Date Range</label><div style="display:flex;gap:8px"><input type="date" id="reportFrom"/><input type="date" id="reportTo"/></div></div>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-green" onclick="exportLeadsExcel()">⬇ Leads Excel</button>
+            <button class="btn btn-cyan" onclick="exportMeetingsExcel()">⬇ Meetings Excel</button>
+            <button class="btn btn-amber" onclick="exportTodosExcel()">⬇ To-Dos Excel</button>
+            <button class="btn btn-primary" onclick="exportTeamExcel()">⬇ Full Report</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title">📊 Summary</div></div>
+          <div id="reportSummary"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">🕐 Full Activity Log</div><div class="card-sub">All team activity</div></div>
+        <div id="fullActivityLog" style="max-height:400px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- LEAD MODAL -->
+<div class="modal-bg" id="mLead" onclick="closeModal(event,'mLead')">
+  <div class="modal">
+    <div class="modal-title" id="mLeadTitle">Add New Lead</div>
+    <div class="modal-sub">Fill in lead details for the CRM sheet</div>
+    <input type="hidden" id="mLeadId"/>
+    <div class="form-row">
+      <div class="fg"><label>Company Name *</label><input id="l_company" placeholder="Company name"/></div>
+      <div class="fg"><label>Contact Person *</label><input id="l_contact" placeholder="Contact person"/></div>
+      <div class="fg"><label>Duration (hh:mm)</label><input id="l_duration" placeholder="00:30"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label>Phone *</label><input id="l_phone" placeholder="+91 XXXXX XXXXX"/></div>
+      <div class="fg"><label>Email ID</label><input id="l_email" placeholder="email@company.com" type="email"/></div>
+      <div class="fg"><label>Requirement</label><input id="l_requirement" placeholder="Product requirement"/></div>
+    </div>
+    <div class="form-row col2">
+      <div class="fg"><label>Office Address</label><input id="l_address" placeholder="Full address"/></div>
+      <div class="fg"><label>Party Business & Company Card</label><input id="l_party" placeholder="Business type / card details"/></div>
+    </div>
+    <div class="form-row col2">
+      <div class="fg"><label>Feedback</label><textarea id="l_feedback" rows="2" placeholder="Meeting feedback…"></textarea></div>
+      <div class="fg"><label>Company Photos / Files</label><input id="l_photos" placeholder="Photo URLs or file names"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label>Visits by Salesman</label><input id="l_visits" type="number" placeholder="0" min="0"/></div>
+      <div class="fg"><label>Meeting Date</label><input id="l_meetdate" type="date"/></div>
+      <div class="fg"><label>Location & Coordinates *</label><input id="l_coords" placeholder="Lat, Lng or address"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label>Remark 1</label><input id="l_r1" placeholder="Remark 1"/></div>
+      <div class="fg"><label>Remark 2</label><input id="l_r2" placeholder="Remark 2"/></div>
+      <div class="fg"><label>Remark 3</label><input id="l_r3" placeholder="Remark 3"/></div>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label>Calling Date</label><input id="l_calldate" type="date"/></div>
+      <div class="fg"><label>Follow Up Date</label><input id="l_followup" type="date"/></div>
+      <div class="fg"><label>Status</label>
+        <select id="l_status">
+          <option value="Pending">Pending</option>
+          <option value="Interested">Interested</option>
+          <option value="Follow Up">Follow Up</option>
+          <option value="Not Interested">Not Interested</option>
+          <option value="Converted">Converted</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveLead()">💾 Save Lead</button>
+      <button class="btn btn-red" onclick="closeModalById('mLead')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TODO MODAL -->
+<div class="modal-bg" id="mTodo" onclick="closeModal(event,'mTodo')">
+  <div class="modal modal-sm">
+    <div class="modal-title">Add Task</div>
+    <div class="modal-sub">Create a new to-do item</div>
+    <input type="hidden" id="mTodoId"/>
+    <div class="fg" style="margin-bottom:12px"><label>Task Title *</label><input id="t_title" placeholder="Task description…"/></div>
+    <div class="form-row col2">
+      <div class="fg"><label>Priority</label>
+        <select id="t_priority"><option value="High">🔴 High</option><option value="Medium" selected>🟡 Medium</option><option value="Low">🟢 Low</option></select>
+      </div>
+      <div class="fg"><label>Due Date</label><input id="t_due" type="date"/></div>
+    </div>
+    <div class="fg" style="margin-bottom:12px"><label>Notes</label><textarea id="t_notes" rows="2" placeholder="Additional notes…"></textarea></div>
+    <div class="fg" style="margin-bottom:12px"><label>Status</label>
+      <select id="t_status"><option value="Pending">⏳ Pending</option><option value="In Progress">🔄 In Progress</option><option value="Completed">✅ Completed</option></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveTodo()">💾 Save Task</button>
+      <button class="btn btn-red" onclick="closeModalById('mTodo')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEETING MODAL -->
+<div class="modal-bg" id="mMeeting" onclick="closeModal(event,'mMeeting')">
+  <div class="modal modal-sm">
+    <div class="modal-title">Schedule Meeting</div>
+    <div class="modal-sub">Add a new meeting entry</div>
+    <input type="hidden" id="mMeetId"/>
+    <div class="fg" style="margin-bottom:12px"><label>Meeting Title *</label><input id="m_title" placeholder="Meeting title…"/></div>
+    <div class="form-row col2">
+      <div class="fg"><label>Date *</label><input id="m_date" type="date"/></div>
+      <div class="fg"><label>Time</label><input id="m_time" type="time"/></div>
+    </div>
+    <div class="fg" style="margin-bottom:12px"><label>Company / Contact</label><input id="m_company" placeholder="Company or contact name"/></div>
+    <div class="fg" style="margin-bottom:12px"><label>Location</label><input id="m_location" placeholder="Meeting location or link"/></div>
+    <div class="fg" style="margin-bottom:12px"><label>Notes</label><textarea id="m_notes" rows="2" placeholder="Agenda, notes…"></textarea></div>
+    <div class="fg" style="margin-bottom:12px"><label>Status</label>
+      <select id="m_status"><option value="Scheduled">📅 Scheduled</option><option value="Completed">✅ Completed</option><option value="Cancelled">❌ Cancelled</option></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveMeeting()">💾 Save Meeting</button>
+      <button class="btn btn-red" onclick="closeModalById('mMeeting')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER MODAL -->
+<div class="modal-bg" id="mUser" onclick="closeModal(event,'mUser')">
+  <div class="modal modal-sm">
+    <div class="modal-title">Add/Edit User</div>
+    <div class="modal-sub">Manage team member access</div>
+    <input type="hidden" id="mUserId"/>
+    <div class="fg" style="margin-bottom:12px"><label>Full Name *</label><input id="u_name" placeholder="Full name"/></div>
+    <div class="fg" style="margin-bottom:12px"><label>Username *</label><input id="u_username" placeholder="login username"/></div>
+    <div class="fg" style="margin-bottom:12px"><label>Password *</label><input id="u_pass" type="password" placeholder="Password"/></div>
+    <div class="fg" style="margin-bottom:12px"><label>Role</label>
+      <select id="u_role"><option value="sales">Sales Person</option><option value="manager">Manager</option><option value="admin">Admin</option></select>
+    </div>
+    <div class="fg" style="margin-bottom:12px"><label>Email</label><input id="u_email" type="email" placeholder="email@company.com"/></div>
+    <div class="fg" style="margin-bottom:12px"><label>Phone</label><input id="u_phone" placeholder="+91 XXXXX XXXXX"/></div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveUser()">💾 Save User</button>
+      <button class="btn btn-red" onclick="closeModalById('mUser')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastRoot"></div>
+
+<script>
+// ============================================================
+//  DATA STORE
+// ============================================================
+let DB = {
+  users:[
+    {id:'u1',name:'Admin User',username:'admin',password:'admin123',role:'admin',email:'admin@neelgiri.com',phone:'9000000001',color:'#1e3cff'},
+    {id:'u2',name:'Rahul Sharma',username:'rahul',password:'rahul123',role:'sales',email:'rahul@neelgiri.com',phone:'9000000002',color:'#7b4fff'},
+    {id:'u3',name:'Priya Patel',username:'priya',password:'priya123',role:'sales',email:'priya@neelgiri.com',phone:'9000000003',color:'#00cfff'},
+    {id:'u4',name:'Amit Verma',username:'amit',password:'amit123',role:'manager',email:'amit@neelgiri.com',phone:'9000000004',color:'#00ff88'}
+  ],
+  leads:[],
+  todos:[],
+  meetings:[],
+  activityLog:[]
+};
+
+let currentUser = null;
+let leadFilter = 'All';
+let teamTab = 'members';
+
+function loadDB(){
+  const s = localStorage.getItem('neelgiri_db');
+  if(s){try{const p=JSON.parse(s);DB={...DB,...p};}catch(e){}}
+}
+function saveDB(){localStorage.setItem('neelgiri_db',JSON.stringify(DB));}
+
+// ============================================================
+//  PARTICLES (lightweight, CSS only)
+// ============================================================
+function initParticles(){
+  const c=document.getElementById('particles');
+  const colors=['#1e3cff','#00cfff','#7b4fff','#00ff88','#ffcc00'];
+  for(let i=0;i<40;i++){
+    const p=document.createElement('div');p.className='p';
+    const size=Math.random()*4+2;
+    p.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${8+Math.random()*12}s;animation-delay:${Math.random()*10}s`;
+    c.appendChild(p);
+  }
+}
+
+// ============================================================
+//  AUTH
+// ============================================================
+function renderDemoAccounts(){
+  const el=document.getElementById('demoAccounts');
+  if(!el)return;
+  el.innerHTML=DB.users.map(u=>`<div onclick="fillLogin('${u.username}','${u.password}')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:6px 8px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,0.09)'" onmouseout="this.style.background='rgba(255,255,255,0.04)'"><div style="font-size:11px;font-weight:700;color:var(--white)">${u.name}</div><div style="font-size:9px;color:var(--gray)">${u.username} / ${u.password}</div></div>`).join('');
+}
+function populateLoginDropdown(){renderDemoAccounts();}
+function fillLogin(u,p){
+  document.getElementById('loginUsername').value=u;
+  document.getElementById('loginPass').value=p;
+  document.getElementById('loginErr').style.display='none';
+}
+
+function doLogin(){
+  const username=(document.getElementById('loginUsername').value||'').trim().toLowerCase();
+  const pass=document.getElementById('loginPass').value;
+  const err=document.getElementById('loginErr');
+  if(!username||!pass){err.style.display='block';err.textContent='Please enter username and password.';return;}
+  const user=DB.users.find(u=>u.username.toLowerCase()===username&&u.password===pass);
+  if(!user){err.style.display='block';err.textContent='Invalid username or password.';return;}
+  err.style.display='none';
+  currentUser=user;
+  logActivity('Logged in');
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('appWrap').style.display='flex';
+  document.getElementById('loginUsername').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('sbAvatar').textContent=user.name.charAt(0).toUpperCase();
+  document.getElementById('sbAvatar').style.background=user.color||'#1e3cff';
+  document.getElementById('sbName').textContent=user.name;
+  document.getElementById('sbRole').textContent=user.role==='admin'?'Administrator':user.role==='manager'?'Manager':'Sales Person';
+  document.querySelectorAll('.admin-only').forEach(el=>{
+    el.style.display=(user.role==='admin')?'':'none';
+  });
+  populateReportFilter();
+  goto('dashboard');
+}
+
+function doLogout(){
+  logActivity('Logged out');
+  saveDB();
+  currentUser=null;
+  document.getElementById('loginWrap').style.display='flex';
+  document.getElementById('appWrap').style.display='none';
+  document.getElementById('loginUsername').value='';
+  document.getElementById('loginPass').value='';
+  renderDemoAccounts();
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function goto(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(n=>n.classList.remove('active'));
+  const pg=document.getElementById('pg-'+page);
+  if(pg)pg.classList.add('active');
+  document.querySelectorAll('.nb').forEach(n=>{
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+page+"'"))n.classList.add('active');
+  });
+  if(page==='dashboard')renderDashboard();
+  if(page==='leads')renderLeads();
+  if(page==='tasks')renderTodos();
+  if(page==='meetings'){renderMeetings();renderCalendar();}
+  if(page==='activity')renderActivity();
+  if(page==='team')renderTeam();
+  if(page==='users')renderUsers();
+  if(page==='reports')renderReports();
+}
+
+// ============================================================
+//  ACTIVITY LOG
+// ============================================================
+function logActivity(action,extra){
+  if(!currentUser)return;
+  DB.activityLog.push({
+    id:'a'+Date.now(),userId:currentUser.id,userName:currentUser.name,
+    action,extra:extra||'',ts:new Date().toISOString()
+  });
+  saveDB();
+}
+
+function fmtDate(iso){if(!iso)return'—';const d=new Date(iso);return d.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+function fmtTime(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}
+function fmtDateTime(iso){return fmtDate(iso)+' '+fmtTime(iso);}
+function genId(prefix){return prefix+Date.now();}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function renderDashboard(){
+  const h=new Date().getHours();
+  const greet=h<12?'Good Morning':h<17?'Good Afternoon':'Good Evening';
+  document.getElementById('dashGreet').textContent=greet+', '+currentUser.name+' 👋';
+  document.getElementById('dashDate').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  
+  const myLeads=DB.leads.filter(l=>currentUser.role==='admin'||l.userId===currentUser.id);
+  const myTodos=DB.todos.filter(t=>currentUser.role==='admin'||t.userId===currentUser.id);
+  const myMeets=DB.meetings.filter(m=>currentUser.role==='admin'||m.userId===currentUser.id);
+  
+  const stats=[
+    {icon:'📋',val:myLeads.length,label:'Total Leads',cls:'blue'},
+    {icon:'✅',val:myLeads.filter(l=>l.status==='Converted').length,label:'Converted',cls:'green'},
+    {icon:'⏳',val:myTodos.filter(t=>t.status==='Pending').length,label:'Pending Tasks',cls:'amber'},
+    {icon:'📅',val:myMeets.filter(m=>m.status==='Scheduled').length,label:'Upcoming Meetings',cls:'cyan'},
+  ];
+  if(currentUser.role==='admin'){
+    stats.push({icon:'👥',val:DB.users.length,label:'Team Members',cls:'purple'});
+    stats.push({icon:'📊',val:DB.leads.length,label:'All Leads',cls:'red'});
+  }
+  document.getElementById('dashStats').innerHTML=stats.map(s=>`
+    <div class="stat-card ${s.cls}">
+      <div class="stat-icon">${s.icon}</div>
+      <div class="stat-value">${s.val}</div>
+      <div class="stat-label">${s.label}</div>
+    </div>`).join('');
+  
+  // Recent Leads
+  const rl=myLeads.slice(-5).reverse();
+  document.getElementById('recentLeads').innerHTML=rl.length?rl.map(l=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:12px;font-weight:600">${l.company}</div>
+        <div style="font-size:10px;color:var(--gray)">${l.contact} • ${l.phone}</div>
+      </div>
+      <span class="badge ${statusBadge(l.status)}">${l.status}</span>
+    </div>`).join(''):'<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">No leads yet</div>';
+  
+  // Upcoming meetings
+  const today=new Date().toISOString().split('T')[0];
+  const um=myMeets.filter(m=>m.date>=today&&m.status==='Scheduled').slice(0,4);
+  document.getElementById('upcomingMeetings').innerHTML=um.length?um.map(m=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-size:12px;font-weight:600">${m.title}</div>
+        <div style="font-size:10px;color:var(--gray)">${fmtDate(m.date)} ${m.time||''} • ${m.company||''}</div>
+      </div>
+      <span class="badge badge-amber">📅</span>
+    </div>`).join(''):'<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">No upcoming meetings</div>';
+  
+  // Todos
+  const pt=myTodos.filter(t=>t.status!=='Completed').slice(0,4);
+  document.getElementById('dashTodos').innerHTML=pt.length?pt.map(t=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <input type="checkbox" ${t.status==='Completed'?'checked':''} onchange="quickComplete('${t.id}',this.checked)" style="cursor:pointer;accent-color:var(--cyan)"/>
+      <div style="flex:1">
+        <div style="font-size:12px;${t.status==='Completed'?'text-decoration:line-through;opacity:.5':''}">${t.title}</div>
+        <div style="font-size:10px;color:var(--gray)">${t.due?'Due: '+fmtDate(t.due):''} ${priBadge(t.priority)}</div>
+      </div>
+    </div>`).join(''):'<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">All clear! 🎉</div>';
+  
+  // Perf chart
+  renderPerfChart();
+}
+
+function priBadge(p){
+  if(p==='High')return'<span class="badge badge-red" style="font-size:9px">High</span>';
+  if(p==='Low')return'<span class="badge badge-green" style="font-size:9px">Low</span>';
+  return'<span class="badge badge-amber" style="font-size:9px">Medium</span>';
+}
+
+function renderPerfChart(){
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const today=new Date();
+  const myLeads=DB.leads.filter(l=>currentUser.role==='admin'||l.userId===currentUser.id);
+  const vals=days.map((_,i)=>{
+    const d=new Date(today);
+    d.setDate(d.getDate()-(today.getDay()||7)+i+1);
+    const dk=d.toISOString().split('T')[0];
+    return myLeads.filter(l=>l.createdAt&&l.createdAt.startsWith(dk)).length;
+  });
+  const mx=Math.max(...vals,1);
+  document.getElementById('perfChart').innerHTML=vals.map((v,i)=>`
+    <div class="bar-col">
+      <div class="bar-val">${v}</div>
+      <div class="bar" style="height:${Math.max(4,Math.round(v/mx*80))}px"></div>
+      <div class="bar-label">${days[i]}</div>
+    </div>`).join('');
+}
+
+function quickComplete(id,checked){
+  const t=DB.todos.find(x=>x.id===id);
+  if(t){t.status=checked?'Completed':'Pending';logActivity(checked?'Completed task':'Reopened task',t.title);saveDB();renderDashboard();}
+}
+
+// ============================================================
+//  LEADS
+// ============================================================
+function statusBadge(s){
+  const m={'Interested':'badge-green','Converted':'badge-cyan','Not Interested':'badge-red','Follow Up':'badge-amber','Pending':'badge-blue'};
+  return m[s]||'badge-gray';
+}
+
+function setLeadFilter(f){leadFilter=f;document.getElementById('leadFilterLabel').textContent=f;renderLeads();}
+
+function renderLeads(){
+  const q=(document.getElementById('leadsSearch')||{value:''}).value.toLowerCase();
+  let leads=DB.leads;
+  if(currentUser.role!=='admin')leads=leads.filter(l=>l.userId===currentUser.id);
+  if(leadFilter!=='All')leads=leads.filter(l=>l.status===leadFilter);
+  if(q)leads=leads.filter(l=>(l.company+l.contact+l.phone+l.email+l.requirement+l.status).toLowerCase().includes(q));
+  document.getElementById('leadsCount').textContent=leads.length+' leads';
+  const tb=document.getElementById('leadsTbody');
+  tb.innerHTML=leads.length?leads.map(l=>`
+    <tr>
+      <td style="font-size:10px;color:var(--cyan);font-weight:700">${l.leadId}</td>
+      <td style="font-weight:600">${l.company}</td>
+      <td>${l.contact}</td>
+      <td>${l.duration||'—'}</td>
+      <td>${l.phone}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis">${l.email||'—'}</td>
+      <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis">${l.requirement||'—'}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis">${l.address||'—'}</td>
+      <td style="max-width:100px;overflow:hidden;text-overflow:ellipsis">${l.feedback||'—'}</td>
+      <td>${l.party||'—'}</td>
+      <td style="text-align:center">${l.visits||0}</td>
+      <td>${fmtDate(l.meetdate)}</td>
+      <td style="font-size:10px">${l.coords||'—'}</td>
+      <td style="max-width:80px;overflow:hidden;text-overflow:ellipsis">${l.r1||'—'}</td>
+      <td style="max-width:80px;overflow:hidden;text-overflow:ellipsis">${l.r2||'—'}</td>
+      <td style="max-width:80px;overflow:hidden;text-overflow:ellipsis">${l.r3||'—'}</td>
+      <td>${fmtDate(l.calldate)}</td>
+      <td>${fmtDate(l.followup)}</td>
+      <td><span class="badge ${statusBadge(l.status)}">${l.status}</span></td>
+      <td style="font-size:10px;color:var(--gray)">${l.userName||'—'}</td>
+      <td><div style="display:flex;gap:4px">
+        <button class="btn btn-sm btn-cyan" onclick="editLead('${l.id}')">✏️</button>
+        ${currentUser.role==='admin'?`<button class="btn btn-sm btn-red" onclick="deleteLead('${l.id}')">🗑️</button>`:''}
+      </div></td>
+    </tr>`).join(''):'<tr><td colspan="21" style="text-align:center;padding:30px;color:var(--gray)">No leads found</td></tr>';
+}
+
+function openLeadModal(id){
+  clearLeadForm();
+  document.getElementById('mLeadId').value=id||'';
+  document.getElementById('mLeadTitle').textContent=id?'Edit Lead':'Add New Lead';
+  if(id){
+    const l=DB.leads.find(x=>x.id===id);
+    if(l){
+      ['company','contact','duration','phone','email','requirement','address','feedback','party','photos','visits','meetdate','coords','r1','r2','r3','calldate','followup','status'].forEach(k=>{
+        const el=document.getElementById('l_'+k);
+        if(el)el.value=l[k]||'';
+      });
+    }
+  }
+  document.getElementById('mLead').classList.add('open');
+}
+function editLead(id){openLeadModal(id);}
+function deleteLead(id){
+  if(!confirm('Delete this lead?'))return;
+  DB.leads=DB.leads.filter(l=>l.id!==id);
+  logActivity('Deleted lead',id);saveDB();renderLeads();showToast('🗑️','Lead deleted','amber');
+}
+
+function clearLeadForm(){
+  ['company','contact','duration','phone','email','requirement','address','feedback','party','photos','visits','meetdate','coords','r1','r2','r3','calldate','followup'].forEach(k=>{
+    const el=document.getElementById('l_'+k);if(el)el.value='';
+  });
+  document.getElementById('l_status').value='Pending';
+}
+
+function saveLead(){
+  const id=document.getElementById('mLeadId').value;
+  const company=document.getElementById('l_company').value.trim();
+  const phone=document.getElementById('l_phone').value.trim();
+  if(!company||!phone){showToast('⚠️','Company and Phone are required','red');return;}
+  const data={
+    id:id||genId('L'),
+    leadId:id?(DB.leads.find(l=>l.id===id)||{}).leadId||genLeadId():genLeadId(),
+    company,contact:document.getElementById('l_contact').value,
+    duration:document.getElementById('l_duration').value,phone,
+    email:document.getElementById('l_email').value,
+    requirement:document.getElementById('l_requirement').value,
+    address:document.getElementById('l_address').value,
+    feedback:document.getElementById('l_feedback').value,
+    party:document.getElementById('l_party').value,
+    photos:document.getElementById('l_photos').value,
+    visits:document.getElementById('l_visits').value||0,
+    meetdate:document.getElementById('l_meetdate').value,
+    coords:document.getElementById('l_coords').value,
+    r1:document.getElementById('l_r1').value,
+    r2:document.getElementById('l_r2').value,
+    r3:document.getElementById('l_r3').value,
+    calldate:document.getElementById('l_calldate').value,
+    followup:document.getElementById('l_followup').value,
+    status:document.getElementById('l_status').value,
+    userId:currentUser.id,userName:currentUser.name,
+    createdAt:id?(DB.leads.find(l=>l.id===id)||{}).createdAt||new Date().toISOString():new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  };
+  if(id){const idx=DB.leads.findIndex(l=>l.id===id);if(idx>=0)DB.leads[idx]=data;}
+  else DB.leads.push(data);
+  logActivity(id?'Updated lead':'Added lead',company);
+  saveDB();closeModalById('mLead');renderLeads();renderDashboard();
+  showToast('✅',id?'Lead updated!':'Lead added!','green');
+}
+
+function genLeadId(){
+  const n=DB.leads.length+1;
+  return'NGL-'+String(n).padStart(4,'0');
+}
+
+// ============================================================
+//  TO-DOS
+// ============================================================
+function renderTodos(){
+  const myTodos=DB.todos.filter(t=>currentUser.role==='admin'||t.userId===currentUser.id);
+  const pending=myTodos.filter(t=>t.status==='Pending');
+  const inprog=myTodos.filter(t=>t.status==='In Progress');
+  const done=myTodos.filter(t=>t.status==='Completed');
+  document.getElementById('todoStats').textContent=myTodos.length+' tasks • '+done.length+' completed';
+  const renderCards=(arr,cont)=>{
+    document.getElementById(cont).innerHTML=arr.length?arr.map(t=>`
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:8px;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.055)'" onmouseout="this.style.background='rgba(255,255,255,.03)'">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:600;${t.status==='Completed'?'text-decoration:line-through;opacity:.5':''}">${t.title}</div>
+            ${t.notes?`<div style="font-size:10px;color:var(--gray);margin-top:3px">${t.notes}</div>`:''}
+            <div style="margin-top:6px;display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+              ${priBadge(t.priority)}
+              ${t.due?`<span style="font-size:10px;color:var(--gray)">📅 ${fmtDate(t.due)}</span>`:''}
+              <span style="font-size:10px;color:var(--gray)">👤 ${t.userName||'Me'}</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:4px;flex-shrink:0">
+            <button class="btn btn-sm btn-cyan" onclick="editTodo('${t.id}')">✏️</button>
+            <button class="btn btn-sm btn-red" onclick="deleteTodo('${t.id}')">🗑️</button>
+          </div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:4px">
+          ${['Pending','In Progress','Completed'].map(s=>`<button class="btn btn-sm ${t.status===s?'btn-primary':'btn-cyan'}" style="font-size:9px;padding:3px 7px" onclick="setTodoStatus('${t.id}','${s}')">${s}</button>`).join('')}
+        </div>
+      </div>`).join(''):`<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">Empty</div>`;
+  };
+  renderCards(pending,'todoPending');
+  renderCards(inprog,'todoInProgress');
+  renderCards(done,'todoCompleted');
+}
+
+function openTodoModal(id){
+  document.getElementById('mTodoId').value=id||'';
+  if(id){
+    const t=DB.todos.find(x=>x.id===id);
+    if(t){document.getElementById('t_title').value=t.title||'';document.getElementById('t_priority').value=t.priority||'Medium';document.getElementById('t_due').value=t.due||'';document.getElementById('t_notes').value=t.notes||'';document.getElementById('t_status').value=t.status||'Pending';}
+  } else {
+    document.getElementById('t_title').value='';document.getElementById('t_priority').value='Medium';document.getElementById('t_due').value='';document.getElementById('t_notes').value='';document.getElementById('t_status').value='Pending';
+  }
+  document.getElementById('mTodo').classList.add('open');
+}
+function editTodo(id){openTodoModal(id);}
+function deleteTodo(id){
+  const t=DB.todos.find(x=>x.id===id);
+  DB.todos=DB.todos.filter(x=>x.id!==id);
+  logActivity('Deleted task',t?t.title:'');saveDB();renderTodos();showToast('🗑️','Task deleted','amber');
+}
+function setTodoStatus(id,status){
+  const t=DB.todos.find(x=>x.id===id);
+  if(t){t.status=status;logActivity('Updated task status',t.title+' → '+status);saveDB();renderTodos();}
+}
+function saveTodo(){
+  const id=document.getElementById('mTodoId').value;
+  const title=document.getElementById('t_title').value.trim();
+  if(!title){showToast('⚠️','Title required','red');return;}
+  const data={
+    id:id||genId('T'),title,
+    priority:document.getElementById('t_priority').value,
+    due:document.getElementById('t_due').value,
+    notes:document.getElementById('t_notes').value,
+    status:document.getElementById('t_status').value,
+    userId:currentUser.id,userName:currentUser.name,
+    createdAt:id?(DB.todos.find(t=>t.id===id)||{}).createdAt||new Date().toISOString():new Date().toISOString()
+  };
+  if(id){const idx=DB.todos.findIndex(t=>t.id===id);if(idx>=0)DB.todos[idx]=data;}
+  else DB.todos.push(data);
+  logActivity(id?'Updated task':'Added task',title);
+  saveDB();closeModalById('mTodo');renderTodos();renderDashboard();
+  showToast('✅',id?'Task updated!':'Task added!','green');
+}
+
+// ============================================================
+//  MEETINGS
+// ============================================================
+function openMeetingModal(id){
+  document.getElementById('mMeetId').value=id||'';
+  if(id){
+    const m=DB.meetings.find(x=>x.id===id);
+    if(m){['title','date','time','company','location','notes','status'].forEach(k=>{const el=document.getElementById('m_'+k);if(el)el.value=m[k]||'';});}
+  } else {
+    ['title','date','time','company','location','notes'].forEach(k=>{const el=document.getElementById('m_'+k);if(el)el.value='';});
+    document.getElementById('m_status').value='Scheduled';
+    document.getElementById('m_date').value=new Date().toISOString().split('T')[0];
+  }
+  document.getElementById('mMeeting').classList.add('open');
+}
+function saveMeeting(){
+  const id=document.getElementById('mMeetId').value;
+  const title=document.getElementById('m_title').value.trim();
+  const date=document.getElementById('m_date').value;
+  if(!title||!date){showToast('⚠️','Title and Date required','red');return;}
+  const data={
+    id:id||genId('M'),title,date,
+    time:document.getElementById('m_time').value,
+    company:document.getElementById('m_company').value,
+    location:document.getElementById('m_location').value,
+    notes:document.getElementById('m_notes').value,
+    status:document.getElementById('m_status').value,
+    userId:currentUser.id,userName:currentUser.name,
+    createdAt:id?(DB.meetings.find(m=>m.id===id)||{}).createdAt||new Date().toISOString():new Date().toISOString()
+  };
+  if(id){const idx=DB.meetings.findIndex(m=>m.id===id);if(idx>=0)DB.meetings[idx]=data;}
+  else DB.meetings.push(data);
+  logActivity(id?'Updated meeting':'Scheduled meeting',title+' on '+date);
+  saveDB();closeModalById('mMeeting');renderMeetings();renderCalendar();renderDashboard();
+  showToast('✅','Meeting saved!','green');
+}
+
+function renderMeetings(){
+  const myMeets=DB.meetings.filter(m=>currentUser.role==='admin'||m.userId===currentUser.id).sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById('meetingList').innerHTML=myMeets.length?myMeets.map(m=>`
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:8px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between">
+        <div>
+          <div style="font-size:13px;font-weight:700">${m.title}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px">📅 ${fmtDate(m.date)} ${m.time?'⏰ '+m.time:''}</div>
+          ${m.company?`<div style="font-size:11px;color:var(--gray)">🏢 ${m.company}</div>`:''}
+          ${m.location?`<div style="font-size:11px;color:var(--gray)">📍 ${m.location}</div>`:''}
+          ${m.notes?`<div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px">${m.notes}</div>`:''}
+          <div style="font-size:10px;color:var(--gray);margin-top:4px">👤 ${m.userName}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+          <span class="badge ${m.status==='Completed'?'badge-green':m.status==='Cancelled'?'badge-red':'badge-amber'}">${m.status}</span>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <button class="btn btn-sm btn-cyan" onclick="openMeetingModal('${m.id}')">✏️</button>
+            ${currentUser.role==='admin'?`<button class="btn btn-sm btn-red" onclick="deleteMeeting('${m.id}')">🗑️</button>`:''}
+          </div>
+        </div>
+      </div>
+    </div>`).join(''):'<div style="color:var(--gray);font-size:12px;text-align:center;padding:30px">No meetings scheduled</div>';
+}
+
+function deleteMeeting(id){
+  if(!confirm('Delete this meeting?'))return;
+  DB.meetings=DB.meetings.filter(m=>m.id!==id);
+  logActivity('Deleted meeting');saveDB();renderMeetings();renderCalendar();showToast('🗑️','Meeting deleted','amber');
+}
+
+function renderCalendar(){
+  const now=new Date();const y=now.getFullYear();const mo=now.getMonth();
+  const firstDay=new Date(y,mo,1).getDay();
+  const daysInMonth=new Date(y,mo+1,0).getDate();
+  const todayStr=now.toISOString().split('T')[0];
+  const myMeets=DB.meetings.filter(m=>currentUser.role==='admin'||m.userId===currentUser.id);
+  const meetDates=myMeets.map(m=>m.date);
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  let html=`<div style="font-size:13px;font-weight:700;text-align:center;margin-bottom:8px">${now.toLocaleDateString('en-IN',{month:'long',year:'numeric'})}</div>`;
+  html+='<div class="cal-grid">';
+  html+=days.map(d=>`<div class="cal-day-header">${d}</div>`).join('');
+  for(let i=0;i<firstDay;i++)html+='<div class="cal-day empty"></div>';
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const hasMeet=meetDates.includes(ds);
+    html+=`<div class="cal-day${ds===todayStr?' today':''}${hasMeet?' has-meeting':''}" title="${hasMeet?'Meeting scheduled':''}${ds===todayStr?' (Today)':''}">${d}</div>`;
+  }
+  html+='</div>';
+  document.getElementById('calendarWrap').innerHTML=html;
+}
+
+// ============================================================
+//  ACTIVITY
+// ============================================================
+function renderActivity(){
+  const myLeads=DB.leads.filter(l=>l.userId===currentUser.id);
+  const myTodos=DB.todos.filter(t=>t.userId===currentUser.id);
+  const myMeets=DB.meetings.filter(m=>m.userId===currentUser.id);
+  document.getElementById('activityStats').innerHTML=[
+    {icon:'📋',val:myLeads.length,label:'My Leads',cls:'blue'},
+    {icon:'✅',val:myTodos.filter(t=>t.status==='Completed').length,label:'Tasks Done',cls:'green'},
+    {icon:'📅',val:myMeets.length,label:'Meetings',cls:'amber'},
+    {icon:'🔄',val:myTodos.filter(t=>t.status==='In Progress').length,label:'In Progress',cls:'cyan'}
+  ].map(s=>`<div class="stat-card ${s.cls}"><div class="stat-icon">${s.icon}</div><div class="stat-value">${s.val}</div><div class="stat-label">${s.label}</div></div>`).join('');
+  
+  const myLog=DB.activityLog.filter(a=>a.userId===currentUser.id).slice().reverse().slice(0,50);
+  document.getElementById('activityLog').innerHTML=myLog.length?myLog.map(a=>`
+    <div class="activity-item">
+      <div class="act-dot" style="background:var(--cyan)"></div>
+      <div class="act-text"><strong>${a.action}</strong>${a.extra?' — '+a.extra:''}</div>
+      <div class="act-time">${fmtDateTime(a.ts)}</div>
+    </div>`).join(''):'<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">No activity yet</div>';
+  
+  const statusCounts={};
+  myLeads.forEach(l=>{statusCounts[l.status]=(statusCounts[l.status]||0)+1;});
+  document.getElementById('myLeadsSummary').innerHTML=Object.keys(statusCounts).length?Object.entries(statusCounts).map(([s,c])=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span class="badge ${statusBadge(s)}">${s}</span>
+      <span style="font-weight:700;font-size:16px">${c}</span>
+    </div>`).join(''):'<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">No leads yet</div>';
+}
+
+// ============================================================
+//  TEAM (ADMIN)
+// ============================================================
+function setTeamTab(tab,el){
+  teamTab=tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderTeam();
+}
+
+function renderTeam(){
+  const cont=document.getElementById('teamContent');
+  if(teamTab==='members'){
+    cont.innerHTML='<div class="g3">'+DB.users.map(u=>{
+      const ul=DB.leads.filter(l=>l.userId===u.id).length;
+      const ut=DB.todos.filter(t=>t.userId===u.id).length;
+      const um=DB.meetings.filter(m=>m.userId===u.id).length;
+      return`<div class="user-card">
+        <div class="u-avatar" style="background:${u.color||'#1e3cff'}">${u.name.charAt(0).toUpperCase()}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:700">${u.name}</div>
+          <div style="font-size:10px;color:var(--cyan);font-weight:600;text-transform:uppercase;letter-spacing:.05em">${u.role}</div>
+          <div style="font-size:10px;color:var(--gray);margin-top:4px">${u.email||''}</div>
+          <div style="display:flex;gap:10px;margin-top:6px;font-size:11px">
+            <span>📋 ${ul} leads</span><span>✅ ${ut} tasks</span><span>📅 ${um} meets</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('')+'</div>';
+  } else if(teamTab==='leads'){
+    cont.innerHTML=`<div class="tbl-wrap"><table>
+      <thead><tr><th>Lead ID</th><th>Company</th><th>Contact</th><th>Phone</th><th>Status</th><th>Salesman</th><th>Date</th></tr></thead>
+      <tbody>${DB.leads.map(l=>`<tr><td style="color:var(--cyan);font-size:10px;font-weight:700">${l.leadId}</td><td>${l.company}</td><td>${l.contact}</td><td>${l.phone}</td><td><span class="badge ${statusBadge(l.status)}">${l.status}</span></td><td>${l.userName}</td><td style="font-size:10px;color:var(--gray)">${fmtDate(l.createdAt)}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  } else if(teamTab==='meetings'){
+    cont.innerHTML=`<div class="tbl-wrap"><table>
+      <thead><tr><th>Title</th><th>Date</th><th>Time</th><th>Company</th><th>Status</th><th>By</th></tr></thead>
+      <tbody>${DB.meetings.map(m=>`<tr><td>${m.title}</td><td>${fmtDate(m.date)}</td><td>${m.time||'—'}</td><td>${m.company||'—'}</td><td><span class="badge ${m.status==='Completed'?'badge-green':m.status==='Cancelled'?'badge-red':'badge-amber'}">${m.status}</span></td><td>${m.userName}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  } else if(teamTab==='todos'){
+    cont.innerHTML=`<div class="tbl-wrap"><table>
+      <thead><tr><th>Task</th><th>Priority</th><th>Due Date</th><th>Status</th><th>Assigned To</th></tr></thead>
+      <tbody>${DB.todos.map(t=>`<tr><td>${t.title}</td><td>${priBadge(t.priority)}</td><td>${fmtDate(t.due)}</td><td><span class="badge ${t.status==='Completed'?'badge-green':t.status==='In Progress'?'badge-cyan':'badge-amber'}">${t.status}</span></td><td>${t.userName}</td></tr>`).join('')}</tbody>
+    </table></div>`;
+  }
+}
+
+// ============================================================
+//  USERS (ADMIN)
+// ============================================================
+function renderUsers(){
+  document.getElementById('usersGrid').innerHTML=DB.users.map(u=>`
+    <div class="user-card" style="flex-direction:column;align-items:flex-start;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px;width:100%">
+        <div class="u-avatar" style="background:${u.color||'#1e3cff'}">${u.name.charAt(0).toUpperCase()}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:700">${u.name}</div>
+          <div style="font-size:10px;color:var(--cyan);font-weight:600;text-transform:uppercase">${u.role}</div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-sm btn-cyan" onclick="editUser('${u.id}')">✏️</button>
+          ${u.id!=='u1'?`<button class="btn btn-sm btn-red" onclick="deleteUser('${u.id}')">🗑️</button>`:''}
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--gray)">
+        <div>📧 ${u.email||'—'}</div>
+        <div>📞 ${u.phone||'—'}</div>
+        <div>🔑 Username: ${u.username}</div>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35)">
+        ${DB.leads.filter(l=>l.userId===u.id).length} leads • 
+        ${DB.todos.filter(t=>t.userId===u.id).length} tasks
+      </div>
+    </div>`).join('');
+}
+
+function openUserModal(id){
+  document.getElementById('mUserId').value=id||'';
+  if(id){
+    const u=DB.users.find(x=>x.id===id);
+    if(u){document.getElementById('u_name').value=u.name;document.getElementById('u_username').value=u.username;document.getElementById('u_pass').value=u.password;document.getElementById('u_role').value=u.role;document.getElementById('u_email').value=u.email||'';document.getElementById('u_phone').value=u.phone||'';}
+  } else {
+    ['u_name','u_username','u_pass','u_email','u_phone'].forEach(i=>{const el=document.getElementById(i);if(el)el.value='';});
+    document.getElementById('u_role').value='sales';
+  }
+  document.getElementById('mUser').classList.add('open');
+}
+function editUser(id){openUserModal(id);}
+function deleteUser(id){
+  if(id==='u1'){showToast('⚠️','Cannot delete admin','red');return;}
+  if(!confirm('Delete this user? Their data will remain.'))return;
+  DB.users=DB.users.filter(u=>u.id!==id);
+  saveDB();renderUsers();populateLoginDropdown();showToast('🗑️','User deleted','amber');
+}
+function saveUser(){
+  const id=document.getElementById('mUserId').value;
+  const name=document.getElementById('u_name').value.trim();
+  const username=document.getElementById('u_username').value.trim();
+  const pass=document.getElementById('u_pass').value;
+  if(!name||!username||!pass){showToast('⚠️','Name, username and password required','red');return;}
+  const colors=['#1e3cff','#7b4fff','#00cfff','#00ff88','#ffcc00','#ff4466','#ff6b35'];
+  const data={
+    id:id||genId('U'),name,username,password:pass,
+    role:document.getElementById('u_role').value,
+    email:document.getElementById('u_email').value,
+    phone:document.getElementById('u_phone').value,
+    color:id?(DB.users.find(u=>u.id===id)||{}).color||colors[Math.floor(Math.random()*colors.length)]:colors[DB.users.length%colors.length]
+  };
+  if(id){const idx=DB.users.findIndex(u=>u.id===id);if(idx>=0)DB.users[idx]=data;}
+  else DB.users.push(data);
+  saveDB();closeModalById('mUser');renderUsers();populateLoginDropdown();
+  showToast('✅',id?'User updated!':'User added!','green');
+}
+
+// ============================================================
+//  REPORTS (ADMIN)
+// ============================================================
+function populateReportFilter(){
+  if(currentUser.role!=='admin')return;
+  const sel=document.getElementById('reportUserFilter');
+  if(!sel)return;
+  sel.innerHTML='<option value="">All Users</option>';
+  DB.users.forEach(u=>{const o=document.createElement('option');o.value=u.id;o.textContent=u.name;sel.appendChild(o);});
+}
+
+function renderReports(){
+  const uid=document.getElementById('reportUserFilter')?document.getElementById('reportUserFilter').value:'';
+  let leads=DB.leads,todos=DB.todos,meets=DB.meetings,logs=DB.activityLog;
+  if(uid){leads=leads.filter(l=>l.userId===uid);todos=todos.filter(t=>t.userId===uid);meets=meets.filter(m=>m.userId===uid);logs=logs.filter(a=>a.userId===uid);}
+  const statusCounts={};leads.forEach(l=>{statusCounts[l.status]=(statusCounts[l.status]||0)+1;});
+  document.getElementById('reportSummary').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${Object.entries(statusCounts).map(([s,c])=>`
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span class="badge ${statusBadge(s)}">${s}</span>
+          <span style="font-weight:700">${c}</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill blue" style="width:${Math.round(c/leads.length*100)||0}%"></div></div>
+      `).join('')}
+      <div style="margin-top:8px;display:flex;gap:14px;font-size:12px">
+        <span>📋 ${leads.length} leads</span>
+        <span>✅ ${todos.filter(t=>t.status==='Completed').length}/${todos.length} tasks</span>
+        <span>📅 ${meets.length} meetings</span>
+      </div>
+    </div>`;
+  document.getElementById('fullActivityLog').innerHTML=logs.slice().reverse().slice(0,100).map(a=>`
+    <div class="activity-item">
+      <div class="act-dot" style="background:var(--cyan)"></div>
+      <div class="act-text"><strong>${a.userName}</strong> — ${a.action}${a.extra?' ('+a.extra+')':''}</div>
+      <div class="act-time">${fmtDateTime(a.ts)}</div>
+    </div>`).join('')||'<div style="color:var(--gray);font-size:12px;text-align:center;padding:20px">No activity</div>';
+}
+
+// ============================================================
+//  EXCEL EXPORT
+// ============================================================
+function csvDownload(filename,headers,rows){
+  const esc=v=>{const s=String(v||'').replace(/"/g,'""');return/[,"\n]/.test(s)?`"${s}"`:s;};
+  const csv=[headers.map(esc).join(','),...rows.map(r=>r.map(esc).join(','))].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();
+  showToast('⬇️','Downloading '+filename,'green');
+}
+
+function exportLeadsExcel(){
+  const uid=currentUser.role==='admin'&&document.getElementById('reportUserFilter')?document.getElementById('reportUserFilter').value:'';
+  let leads=DB.leads;
+  if(uid)leads=leads.filter(l=>l.userId===uid);
+  csvDownload('Neelgiri_Leads_'+new Date().toISOString().split('T')[0]+'.csv',
+    ['Lead ID','Company Name','Contact Person','Duration','Phone','Email','Requirement','Office Address','Feedback','Party Business','Visits','Meeting Date','Coordinates','Remark 1','Remark 2','Remark 3','Calling Date','Follow Up Date','Status','Salesman','Created At'],
+    leads.map(l=>[l.leadId,l.company,l.contact,l.duration,l.phone,l.email,l.requirement,l.address,l.feedback,l.party,l.visits,l.meetdate,l.coords,l.r1,l.r2,l.r3,l.calldate,l.followup,l.status,l.userName,fmtDateTime(l.createdAt)])
+  );
+}
+
+function exportMeetingsExcel(){
+  csvDownload('Neelgiri_Meetings_'+new Date().toISOString().split('T')[0]+'.csv',
+    ['Title','Date','Time','Company','Location','Notes','Status','By','Created At'],
+    DB.meetings.map(m=>[m.title,m.date,m.time,m.company,m.location,m.notes,m.status,m.userName,fmtDateTime(m.createdAt)])
+  );
+}
+
+function exportTodosExcel(){
+  csvDownload('Neelgiri_Tasks_'+new Date().toISOString().split('T')[0]+'.csv',
+    ['Title','Priority','Due Date','Notes','Status','Assigned To','Created At'],
+    DB.todos.map(t=>[t.title,t.priority,t.due,t.notes,t.status,t.userName,fmtDateTime(t.createdAt)])
+  );
+}
+
+function exportTeamExcel(){
+  csvDownload('Neelgiri_ActivityLog_'+new Date().toISOString().split('T')[0]+'.csv',
+    ['User','Action','Detail','Date & Time'],
+    DB.activityLog.slice().reverse().map(a=>[a.userName,a.action,a.extra,fmtDateTime(a.ts)])
+  );
+}
+
+// ============================================================
+//  MODALS
+// ============================================================
+function closeModal(e,id){if(e.target.classList.contains('modal-bg'))closeModalById(id);}
+function closeModalById(id){document.getElementById(id).classList.remove('open');}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(icon,msg,type){
+  const c=document.getElementById('toastRoot');
+  const t=document.createElement('div');t.className='toast';
+  const col=type==='green'?'var(--green)':type==='red'?'var(--red)':type==='amber'?'var(--amber)':'var(--cyan)';
+  t.innerHTML=`<span style="font-size:16px">${icon}</span><span>${msg}</span>`;
+  t.style.borderLeft='3px solid '+col;
+  c.appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('in')));
+  setTimeout(()=>{t.classList.remove('in');setTimeout(()=>t.remove(),350);},3000);
+}
+
+// ============================================================
+//  KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open'));}
+  if(e.ctrlKey&&e.key==='n'){e.preventDefault();if(currentUser)openLeadModal();}
+});
+
+// ============================================================
+//  INIT
+// ============================================================
+function init(){
+  loadDB();
+  initParticles();
+  populateLoginDropdown();
+}
+init();
+</script>
+</body>
+</html>
